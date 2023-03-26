@@ -1,65 +1,61 @@
-<<<<<<< HEAD
-import * as fs from 'fs/promises';
-import Link from 'next/link';
-import path from 'path';
+import { useRef, useState } from 'react';
 
-const HomePage = (props) => {
-  const { products } = props;
-=======
-import { getFeaturedEvents } from '@/utils';
-import EventList from '@/components/events/event-list';
->>>>>>> NextJs-Section-06
+function HomePage() {
+  const [mess, setMess] = useState([]);
+  const emailInput = useRef();
+  const feedbackInput = useRef();
 
-const HomePage = (props) => {
-  return (
-<<<<<<< HEAD
-    <ul>
-      {products.map((product) => (
-        <li key={product.id}>
-          {' '}
-          <Link href={`/${product.id}`}>{product.title}</Link>{' '}
-        </li>
-      ))}
-    </ul>
-  );
-};
+  const submitHandler = (event) => {
+    event.preventDefault();
 
-export const getStaticProps = async (context) => {
-  console.log('Regenarting ...');
-  const filePath = path.join(process.cwd(), 'data', 'data.json');
-  const readData = await fs.readFile(filePath);
-  const data = JSON.parse(readData);
+    const emailValue = emailInput.current.value;
+    const feedbackValue = feedbackInput.current.value;
 
-  if (!data) {
-    return {
-      redirect: {
-        destination: '/no-data',
+    const reqBody = { email: emailValue, feedback: feedbackValue };
+
+    fetch('/api/feedback', {
+      method: 'POST',
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json',
       },
-    };
-  }
-
-  if (data.products.lenght === 0) {
-    return { notFound: true };
-  }
-
-  return {
-    props: {
-      products: data.products,
-    },
-    revalidate: 5,
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
-=======
+
+  const loadSubmitedData = () => {
+    fetch('/api/feedback')
+      .then((res) => res.json())
+      .then((data) => setMess(data.feedback));
+  };
+
+  return (
     <div>
-      <EventList items={props.featuredEvents} />
+      <h1>The Home Page</h1>
+      <form onSubmit={submitHandler}>
+        <div>
+          <label htmlFor="email">Your Email</label>
+          <input type="email" id="email" ref={emailInput} />
+        </div>
+        <div>
+          <label htmlFor="feedback">Your feedback</label>
+          <textarea id="feedback" rows="5" ref={feedbackInput}></textarea>
+        </div>
+        <button>Submit</button>
+      </form>
+      <hr />
+      <button onClick={loadSubmitedData}>Load Data</button>
+      <ul>
+        {mess.map((me) => (
+          <li key={me.id}>
+            <p>{me.email}</p>
+            <p>{me.feedback}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-};
-
-export const getStaticProps = async () => {
-  const featured = await getFeaturedEvents();
-
-  return { props: { featuredEvents: featured }, revalidate: 100 };
->>>>>>> NextJs-Section-06
-};
+}
 
 export default HomePage;
