@@ -40,7 +40,7 @@ const EventsSearchComponent = (props) => {
           </select>
         </div>
       </div>
-      <ButtonComponent>Hello</ButtonComponent>
+      <ButtonComponent>Search</ButtonComponent>
     </form>
   );
 };

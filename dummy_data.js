@@ -48,8 +48,8 @@ const ALLMONTHS = [
 
 export const getAllMonths = () => ALLMONTHS;
 
-export const getFeaturedEvents = () =>
-  DUMMY_EVENTS.filter((event) => event.isFeatured);
+export const getFeaturedEvents = (allData) =>
+  allData.filter((event) => event.isFeatured);
 
 export const getAllEvents = () => DUMMY_EVENTS;
 
