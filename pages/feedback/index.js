@@ -6,7 +6,7 @@ const PeedbackPage = (props) => {
   const [getData, setGetData] = useState();
 
   const handleSinge = (id) => {
-    fetch(`/api/${id}`)
+    fetch(`/api/feedback/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setGetData(data.feedback);

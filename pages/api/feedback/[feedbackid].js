@@ -12,4 +12,5 @@ const handler = (req, res) => {
     feedback: queryId,
   });
 };
+
 export default handler;
