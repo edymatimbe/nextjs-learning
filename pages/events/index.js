@@ -24,8 +24,8 @@ function AllEventsPage(props) {
       <Head>
         <title>All Events</title>
         <meta
-          name='description'
-          content='Find a lot of great events that allow you to evolve...'
+          name="description"
+          content="Find a lot of great events that allow you to evolve..."
         />
       </Head>
       <EventsSearch onSearch={findEventsHandler} />
@@ -36,12 +36,13 @@ function AllEventsPage(props) {
 
 export async function getStaticProps() {
   const events = await getAllEvents();
+  console.log(events);
 
   return {
     props: {
       events: events,
     },
-    revalidate: 60
+    revalidate: 60,
   };
 }
 
